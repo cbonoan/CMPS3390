@@ -1,5 +1,8 @@
 package cbonoan.a3;
 
+/**
+ * Square class represents a square with all equal sides
+ */
 public class Square extends Shape{
     private float width;
 

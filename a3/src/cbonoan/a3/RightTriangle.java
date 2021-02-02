@@ -1,5 +1,9 @@
 package cbonoan.a3;
 
+/**
+ * RightTriangle class represents right triangles with sides (width and height) forming a 90 degree angle
+ * Width and height may be the same or different
+ */
 public class RightTriangle extends Rectangle{
     public RightTriangle() {
         super();

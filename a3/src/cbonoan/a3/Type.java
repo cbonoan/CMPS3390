@@ -1,8 +1,7 @@
 package cbonoan.a3;
 
 /**
- * Type enum used for application
- * to create shapes
+ * Type of shape
  * @author Charles Bonoan
  * @version 1.0
  */

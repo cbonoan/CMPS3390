@@ -2,7 +2,7 @@ package cbonoan.a3;
 import static java.lang.Math.PI;
 
 /**
- * Shape class used by Main
+ * Shape class is the base class for all other Shape Types
  * @author Charles Bonoan
  * @version 1.0
  */

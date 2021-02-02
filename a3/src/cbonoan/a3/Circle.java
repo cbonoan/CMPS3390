@@ -1,5 +1,8 @@
 package cbonoan.a3;
 
+/**
+ * Circle extends Shape and represetns a perfect circle
+ */
 public class Circle extends Shape{
     private float radius;
 

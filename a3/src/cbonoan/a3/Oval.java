@@ -1,7 +1,8 @@
 package cbonoan.a3;
 
 /**
- * Oval class that extends Circle class
+ * Oval class that extends Circle class and adds a second radius to
+ * represent an oval
  * @author Charles Bonoan
  * @version 1.0
  */

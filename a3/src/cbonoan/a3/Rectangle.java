@@ -1,5 +1,8 @@
 package cbonoan.a3;
 
+/**
+ * Rectangle class represents a rectangle where width and height are different
+ */
 public class Rectangle extends Square{
     private float height;
 
