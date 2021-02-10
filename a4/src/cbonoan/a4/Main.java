@@ -145,8 +145,14 @@ public class Main {
             int threadNum = 0, lowerBound = 0, upperBound;
 
             long startTime = System.nanoTime();
-            while (threadNum < threads) {
-                if (j == elems) {
+            while (threadNum < threads) { // While ThreadSort array is not full, keep looping
+                if(threadNum+1 == threads) { // If on last thread, pass in remaining Shape array
+                    upperBound = shapes.length;
+                    t[threadNum] = new ThreadSort(shapes, lowerBound, upperBound);
+                    t[threadNum].start();
+                    t[threadNum].join();
+                    threadNum++;
+                } else if (j == elems) { // Once we've looped "elems" times, we create a new ThreadSort
                     upperBound = lowerBound + j;
                     t[threadNum] = new ThreadSort(shapes, lowerBound, upperBound);
                     t[threadNum].start();
