@@ -1,0 +1,17 @@
+BorderPane {
+    -fx-background-color: #ace5ff;
+}
+
+.btcHBox {
+    -fx-background-radius: 50;
+    -fx-background-color: #4d80e4;
+}
+.ethHBox {
+    -fx-background-radius: 50;
+    -fx-background-color: #46b3e6;
+}
+
+VBox {
+    -fx-padding: 35px;
+    -fx-spacing: 35px;
+}
