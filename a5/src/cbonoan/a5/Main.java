@@ -6,6 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Main driver class for a5
+ * @author Charles Bonoan
+ * @version 1.0
+ */
 public class Main extends Application {
 
     @Override

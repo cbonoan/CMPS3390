@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
@@ -24,7 +25,7 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" styleClass="btcHBox">
+            <HBox fx:id="hboxBTC" alignment="CENTER_LEFT" onMouseClicked="#onDetailButtonClicked" prefHeight="100.0" prefWidth="200.0" styleClass="btcHBox">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -39,8 +40,11 @@
                         <Font name="Droid Sans Mono Slashed" size="70.0" />
                      </font>
                   </Label>
-               </children></HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" styleClass="ethHBox">
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></HBox>
+            <HBox fx:id="hboxETH" alignment="CENTER_LEFT" onMouseClicked="#onDetailButtonClicked" prefHeight="100.0" prefWidth="200.0" styleClass="ethHBox">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -55,7 +59,10 @@
                         <Font name="Droid Sans Mono Slashed" size="70.0" />
                      </font>
                   </Label>
-               </children></HBox>
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></HBox>
          </children>
       </VBox>
    </center>
