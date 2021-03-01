@@ -43,18 +43,16 @@ public class ChartController {
     ImageView imgViewCoinLogo;
 
     File btcFile, ethFile;
-    Image btcImg, ethImg;
+    Image btcImg, ethImg, bothImg;
     Coin bitcoin, ethereum;
     public void initialize() throws FileNotFoundException {
         priceChart.setAnimated(false);
 
         // Initialize logos of coins in order to change the
         // logo of chart whenever changed
-        //btcFile = new File("assets/Bitcoin.png");
         btcImg = new Image(new FileInputStream("src/cbonoan/a5/assets/Bitcoin.png"));
-        //ethFile = new File("/home/student/CMPS3390/a5/src/cbonoan/a5/assets/Ethereum.png");
         ethImg = new Image(new FileInputStream("src/cbonoan/a5/assets/Ethereum.png"));
-        imgViewCoinLogo = new ImageView();
+        bothImg = new Image(new FileInputStream("src/cbonoan/a5/assets/btc_eth.png"));
         imgViewCoinLogo.setImage(btcImg);
 
         bitcoin = new Coin("bitcoin");
@@ -112,6 +110,7 @@ public class ChartController {
                 priceChart.getData().add(ethereum.getHistoricalValues());
                 break;
             case "All":
+                imgViewCoinLogo.setImage(bothImg);
                 priceChart.getData().add(bitcoin.getHistoricalValues());
                 priceChart.getData().add(ethereum.getHistoricalValues());
                 break;
