@@ -35,7 +35,7 @@
                         <Insets left="40.0" />
                      </HBox.margin>
                   </ImageView>
-                  <Label fx:id="labBTC" text="\$48,000.00" textFill="WHITE">
+                  <Label fx:id="labBTC" textFill="WHITE">
                      <font>
                         <Font name="Droid Sans Mono Slashed" size="70.0" />
                      </font>

@@ -15,10 +15,16 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("Details.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Details.fxml"));
+        Parent root = loader.load();
+        DetailsController controller = loader.getController();
+        Scene scene = new Scene(root, 700, 475);
         primaryStage.setTitle("Coin Tracker");
-        primaryStage.setScene(new Scene(root, 700, 475));
+        primaryStage.setScene(scene);
         primaryStage.show();
+
+        primaryStage.setOnHidden(e -> controller.stopApp());
+
     }
 
 

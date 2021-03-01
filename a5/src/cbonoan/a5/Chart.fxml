@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cbonoan.a5.ChartController">
+   <top>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="150.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="150.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ImageView fx:id="btnBackArrow" fitHeight="60.0" fitWidth="55.0" onMouseClicked="#onBackArrowClick" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/BackArrow.png" />
+               </image>
+               <effect>
+                  <ColorAdjust brightness="-1.0" saturation="1.0" />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView fx:id="imgViewCoinLogo" fitHeight="60.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+            <ComboBox fx:id="cbCoinSelector" onAction="#onCoinSelectionChange" prefWidth="150.0" GridPane.columnIndex="1">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Bitcoin" />
+                        <String fx:value="Ethereum" />
+                        <String fx:value="All" />
+                    </FXCollections>
+                </items>
+                <value>
+                    <String fx:value="Bitcoin" />
+                </value>
+            </ComboBox>
+            <ComboBox fx:id="cbDateRange" onAction="#onDateRangeChange" prefWidth="150.0" GridPane.columnIndex="2">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Year" />
+                            <String fx:value="90 Days" />
+                            <String fx:value="60 Days" />
+                            <String fx:value="30 Days" />
+                            <String fx:value="Week" />
+                        </FXCollections>
+                    </items>
+                    <value>
+                        <String fx:value="Year" />
+                    </value>
+            </ComboBox>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </BorderPane.margin>
+      </GridPane>
+   </top>
+   <center>
+      <LineChart fx:id="priceChart" stylesheets="@chart.css" title="Price Over TIme" BorderPane.alignment="CENTER">
+        <xAxis>
+          <NumberAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+   </center>
+</BorderPane>
