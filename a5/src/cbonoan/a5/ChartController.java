@@ -50,9 +50,9 @@ public class ChartController {
 
         // Initialize logos of coins in order to change the
         // logo of chart whenever changed
-        btcImg = new Image(new FileInputStream("src/cbonoan/a5/assets/Bitcoin.png"));
-        ethImg = new Image(new FileInputStream("src/cbonoan/a5/assets/Ethereum.png"));
-        bothImg = new Image(new FileInputStream("src/cbonoan/a5/assets/btc_eth.png"));
+        btcImg = new Image(new FileInputStream("/home/student/CMPS3390/a5/src/cbonoan/a5/assets/Bitcoin.png"));
+        ethImg = new Image(new FileInputStream("/home/student/CMPS3390/a5/src/cbonoan/a5/assets/Ethereum.png"));
+        bothImg = new Image(new FileInputStream("/home/student/CMPS3390/a5/src/cbonoan/a5/assets/btc_eth.png"));
         imgViewCoinLogo.setImage(btcImg);
 
         bitcoin = new Coin("bitcoin");
