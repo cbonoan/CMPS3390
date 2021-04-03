@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">DemoApp</string>
+    <string name="hi_android">Hi Android!</string>
+    <string name="bye_android">Bye Android!</string>
+    <string name="textview_default">TextView hold output</string>
+    <string name="btn_say_hi">Say Hi</string>
+    <string name="btn_say_bye">Say Bye</string>
+</resources>

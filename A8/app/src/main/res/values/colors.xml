@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Day time colors -->
+    <color name="white_blue">#E1E6FA</color>
+    <color name="light_blue">#C4D7ED</color>
+    <color name="med_blue">#ABC8E2</color>
+    <color name="blue">#375D81</color>
+    <color name="dark_blue">#183152</color>
+
+    <!--Night time colors -->
+    <color name="off_black">#1C1D21</color>
+    <color name="gray">#31353D</color>
+    <color name="gray_blue">#445878</color>
+    <color name="light_teal">#92CDCF</color>
+    <color name="stone_white">#EEEFF7</color>
+</resources>

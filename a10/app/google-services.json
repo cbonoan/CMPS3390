@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "481744270791",
+    "project_id": "cbonoana10",
+    "storage_bucket": "cbonoana10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481744270791:android:61f41dc13185045587d5e2",
+        "android_client_info": {
+          "package_name": "cbonoan.a10"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "481744270791-d6ecg22uei8157vo8b28mk9tr01gde1m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHVXH05aaeOzH_jblH054vtp0OwHp7Sd8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "481744270791-d6ecg22uei8157vo8b28mk9tr01gde1m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
