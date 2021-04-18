@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -17,7 +18,7 @@ import java.util.Iterator;
  * and also fire its lasers when needed. Lasers will also be deleted
  * in this class so memory isn't used up
  */
-public class Player {
+public class Player implements GameObject{
 
     private float x,y, prevX, prevY;
     private final Bitmap playerImg, playerLeft, playerRight;
@@ -25,11 +26,13 @@ public class Player {
     private Paint paint = new Paint();
     private final float dpi;
     private int frameTicks = 0, shotTicks = 0;
-    private int fireRate = 15; // Speed up fire rate of player by lowering value
+    private int fireRate = 12; // Speed up fire rate of player by lowering value
     private final Resources res;
+    private final int width, height;
 
     private Laser laser;
     ArrayList<Laser> lasers = new ArrayList<>();
+    private float health = 100f;
 
     public Player(Resources res) {
         this.res = res;
@@ -39,29 +42,30 @@ public class Player {
         playerRight = BitmapFactory.decodeResource(res, R.mipmap.player_right);
 
         curImage = playerImg;
-
+        width = curImage.getWidth();
+        height = curImage.getHeight();
 
         DisplayMetrics dm = res.getDisplayMetrics();
         dpi = dm.densityDpi;
 
         x = (dm.widthPixels / 2f) - (playerImg.getWidth() / 2f);
         y = (dm.heightPixels * 0.75f);
+    }
 
-
+    public void updateTouch(int touchX, int touchY) {
+        if(touchX > 0 && touchY > 0) {
+            this.x = touchX - (playerImg.getWidth()/2f);
+            this.y = touchY - (playerImg.getHeight() * 2f);
+        }
     }
 
     /**
      * This function will update the player position as well as
      * update the laser object
-     * @param touchX tracks user touch on x axis
-     * @param touchY tracks user touch on y axis
-     *
      */
-    public void update(float touchX, float touchY) {
-        if(touchX > 0 && touchY > 0) {
-            this.x = touchX - (playerImg.getWidth()/2f);
-            this.y = touchY - (playerImg.getHeight() * 2f);
-        }
+    @Override
+    public void update() {
+        if(health <= 0) return;
 
         if(Math.abs(x - prevX) < 0.04 * dpi) {
             frameTicks++;
@@ -98,7 +102,7 @@ public class Player {
         // remove lasers that are off screen
         for(Iterator<Laser> iterator = lasers.iterator(); iterator.hasNext();) {
             Laser laser = iterator.next();
-            if(!laser.isOnScreen()) {
+            if(!laser.isOnScreen() || !laser.isAlive()) {
                 iterator.remove();
             }
         }
@@ -115,11 +119,57 @@ public class Player {
      * @param canvas The object to draw on
      */
     public void draw(Canvas canvas) {
+        if(health <= 0) return;
+
         canvas.drawBitmap(curImage, this.x, this.y, this.paint);
 
         // draw all lasers
         for(Laser laser : lasers) {
             laser.draw(canvas);
         }
+    }
+
+    @Override
+    public float getX() {
+        return x;
+    }
+
+    @Override
+    public float getY() {
+        return y;
+    }
+
+    @Override
+    public float getWidth() {
+        return width;
+    }
+
+    @Override
+    public float getHeight() {
+        return height;
+    }
+
+    @Override
+    public boolean isAlive() {
+        return health > 0f;
+    }
+
+    @Override
+    public float getHealth() {
+        return health;
+    }
+
+    @Override
+    public float takeDamage(float damage) {
+        return health -= damage;
+    }
+
+    @Override
+    public float addHealth(float repairAmount) {
+        return health += repairAmount;
+    }
+
+    public ArrayList<Laser> getLasers() {
+        return lasers;
     }
 }
