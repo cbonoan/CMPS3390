@@ -21,6 +21,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private final Background background1;
     private final Background background2;
+    private HighScore highScore = HighScore.getInstance();
     private Thread thread;
     private boolean isPlaying = true;
     int touchX, touchY;
@@ -34,6 +35,7 @@ public class GameView extends SurfaceView implements Runnable {
     private int laserDamage = 25; // If want to create power-up that makes lasers stronger, then we can increase this value
     private final float screenWidth, screenHeight;
     private Paint textPaint = new Paint();
+    private Paint highScorePaint = new Paint();
 
     private final MediaPlayer song;
 
@@ -41,11 +43,14 @@ public class GameView extends SurfaceView implements Runnable {
         super(context);
 
         Resources res = getResources();
+
         screenWidth = res.getDisplayMetrics().widthPixels;
         screenHeight = res.getDisplayMetrics().heightPixels;
 
         textPaint.setColor(Color.WHITE);
         textPaint.setTextSize(screenWidth * 0.1f);
+        highScorePaint.setColor(Color.WHITE);
+        highScorePaint.setTextSize(screenWidth * 0.035f);
 
         // Set background
         background1 = new Background(screenX, screenY, res);
@@ -113,6 +118,7 @@ public class GameView extends SurfaceView implements Runnable {
                 if(checkCollision(laser, go)) {
                     laser.takeDamage(100);
                     go.takeDamage(laserDamage);
+                    highScore.addScore(25);
                 }
             }
         }
@@ -145,6 +151,9 @@ public class GameView extends SurfaceView implements Runnable {
             if(!player.isAlive()) {
                 canvas.drawText("GAME OVER", screenWidth/4f, screenHeight/2f, textPaint);
             }
+
+            canvas.drawText(String.format("Score: %s", highScore.getCurScore()),
+                    screenWidth * 0.04f, screenHeight * 0.06f, highScorePaint);
 
             player.draw(canvas);
 
