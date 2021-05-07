@@ -1,4 +1,4 @@
-package com.example.runningman;
+package cbonoan.Final;
 
 import org.junit.Test;
 

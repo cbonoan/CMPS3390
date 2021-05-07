@@ -1,4 +1,4 @@
-package com.example.runningman;
+package cbonoan.Final;
 
 import androidx.appcompat.app.AppCompatActivity;
 
