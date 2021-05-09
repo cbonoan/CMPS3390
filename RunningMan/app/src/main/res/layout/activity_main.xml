@@ -39,9 +39,9 @@
 
     <ImageView
         android:id="@+id/ivTerrain"
-        android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:background="@drawable/terrain"
+        android:layout_width="726dp"
+        android:layout_height="40dp"
+        android:background="@mipmap/terrain"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

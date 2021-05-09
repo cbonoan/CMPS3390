@@ -2,7 +2,10 @@ package cbonoan.Final;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.SurfaceView;
 
@@ -15,13 +18,15 @@ import android.view.SurfaceView;
 public class GameView extends SurfaceView implements Runnable {
     private Thread thread;
 
-    private Background background1;
-    private Background background2;
+    private Background background1, background2;
+    private Terrain terrain1, terrain2;
     private boolean startBackground = false;
     private int backgroundTicks = 0;
-    private int startTick = 30;
+    private int startTick = 50;
 
     private float screenWidth, screenHeight;
+
+    private Player player;
 
     boolean gamePlaying = true;
 
@@ -34,11 +39,17 @@ public class GameView extends SurfaceView implements Runnable {
         screenWidth = res.getDisplayMetrics().widthPixels;
         screenHeight = res.getDisplayMetrics().heightPixels;
 
+
         background1 = new Background(res, screenX, screenY);
         background2 = new Background(res, screenX, screenY);
         background1.setX(0);
         background2.setX(screenX);
+        terrain1 = new Terrain(res, screenX, screenY);
+        terrain2 = new Terrain(res, screenX, screenY);
+        terrain1.setX(0);
+        terrain2.setX(screenX);
 
+        player = new Player(res, screenX, screenY);
     }
 
     @Override
@@ -48,16 +59,31 @@ public class GameView extends SurfaceView implements Runnable {
             draw();
             sleep();
         }
+    }
 
+    private void update() {
+        backgroundTicks++;
+        if(backgroundTicks >= startTick) {
+            terrain1.update();
+            terrain2.update();
+        }
+        background1.update();
+        background2.update();
+
+        player.update();
     }
 
     private void draw() {
-        Log.d("Draw", "Drawing objects");
         if(getHolder().getSurface().isValid()) {
             Canvas canvas = getHolder().lockCanvas();
 
             background1.draw(canvas);
             background2.draw(canvas);
+
+            terrain1.draw(canvas);
+            terrain2.draw(canvas);
+
+            player.draw(canvas);
 
             getHolder().unlockCanvasAndPost(canvas);
         }
@@ -75,14 +101,6 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    private void update() {
-        backgroundTicks++;
-        if(backgroundTicks >= startTick) {
-            background1.update();
-            background2.update();
-        }
-
-    }
 
     public void pause() {
         gamePlaying = false;
