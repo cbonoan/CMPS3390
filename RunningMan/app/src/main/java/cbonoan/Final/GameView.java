@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 /**
@@ -49,7 +50,15 @@ public class GameView extends SurfaceView implements Runnable {
         terrain1.setX(0);
         terrain2.setX(screenX);
 
-        player = new Player(res, screenX, screenY);
+        player = new Player(res);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            player.actionJump();
+        }
+        return true;
     }
 
     @Override
