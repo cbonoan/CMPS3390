@@ -25,18 +25,21 @@ public class Player implements GameObject{
     private Bitmap curImage;
     private float runSpeed = 20f;
     private float x ,y, y0, groundLevel;
-    // Running spritesheet variables
-    private int runFrameWidth = 175, runFrameHeight = 175;
+    // Running sprite sheet variables
+    private int runFrameWidth = 150, runFrameHeight = 150;
     private int runFrameCount = 12;
-    private int runCurFrame = 0;
     private long runFrameChangeTime = 0;
     private int runFrameTimeLength = 23;
-    // Double jumping spritesheet variables
-    private int doubleFrameWidth = 175, doubleFrameHeight = 175;
+    // Double jumping sprite sheet variables
+    private int doubleFrameWidth = 150, doubleFrameHeight = 150;
     private int doubleFrameCount = 6;
-    private int doubleCurFrame = 0;
     private long doubleFrameChangeTime = 0;
     private int doubleFrameTimeLength = 12;
+
+    private SpriteManager doubleJumpSpriteManager = new SpriteManager(doubleFrameWidth,
+            doubleFrameHeight, doubleFrameTimeLength, doubleFrameCount);
+    private SpriteManager runSpriteManager = new SpriteManager(runFrameWidth, runFrameHeight,
+            runFrameTimeLength, runFrameCount);
 
     // Rectangles used to draw the running spritesheet frames
     private Rect runFrameToDraw = new Rect(0,0, runFrameWidth, runFrameHeight);
@@ -76,59 +79,29 @@ public class Player implements GameObject{
         this.curImage = this.runningPlayer;
 
         this.x = -screenX;
-        this.y = this.y0 = this.groundLevel = screenY * 0.74f;
+        this.y = this.y0 = this.groundLevel = screenY * 0.77f;
 
         runPosToDraw = new RectF(x, y,x+ runFrameWidth, y+ runFrameHeight);
         doublePosToDraw = new RectF(0,0, x+doubleFrameWidth, y+doubleFrameHeight);
     }
 
 
-    /**
-     * This function how much time has passed for each frame. Variable 'time' keeps track of how
-     * long a frame has been running and when that variable becomes greater than the time it took
-     * for the last frame to change plus the user defined time length, then I update the frame of the
-     * bitmap to the next sprite
-     */
+
     public void manageRunCurFrame() {
-        long time = System.currentTimeMillis();
-
-        if(time > runFrameChangeTime + runFrameTimeLength) {
-            runFrameChangeTime = time;
-            runCurFrame++;
-
-            // If the current frame is greater than the number of frames in the
-            // bitmap, reset the frame count
-            if(runCurFrame >= runFrameCount) {
-                runCurFrame = 0;
-            }
-        }
+        runFrameChangeTime = runSpriteManager.manageCurFrame(runFrameChangeTime);
 
         // frameToDraw is a rectangle so we need to update the frame it needs to enclose
         // I update left to be the leftmost bound of the frame to draw
         // Then I update the right to be the left bound + the width of the frame
-        runFrameToDraw.left = runCurFrame * runFrameWidth;
+        runFrameToDraw.left = runSpriteManager.curFrame * runFrameWidth;
         runFrameToDraw.right = runFrameToDraw.left + runFrameWidth;
     }
 
-    /**
-     * This function will be basically the same as the function that manages the player running
-     * frames
-     */
     public void manageDoubleJumFrame() {
-        long time = System.currentTimeMillis();
+        doubleFrameChangeTime = doubleJumpSpriteManager.manageCurFrame(doubleFrameChangeTime);
 
-        if(time > doubleFrameChangeTime + doubleFrameTimeLength) {
-            doubleFrameChangeTime = time;
-            doubleCurFrame++;
-
-            if(doubleCurFrame >= doubleFrameCount) {
-                doubleCurFrame = 0;
-            }
-        }
-
-        doubleFrameToDraw.left = doubleCurFrame * doubleFrameWidth;
+        doubleFrameToDraw.left = doubleJumpSpriteManager.curFrame * doubleFrameWidth;
         doubleFrameToDraw.right = doubleFrameToDraw.left + doubleFrameWidth;
-
     }
 
     /**

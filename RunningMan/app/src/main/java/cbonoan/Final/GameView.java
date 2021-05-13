@@ -28,6 +28,7 @@ public class GameView extends SurfaceView implements Runnable {
     private float screenWidth, screenHeight;
 
     private Player player;
+    private EnemyRhino rhino;
 
     boolean gamePlaying = true;
 
@@ -51,6 +52,7 @@ public class GameView extends SurfaceView implements Runnable {
         terrain2.setX(screenX);
 
         player = new Player(res);
+        rhino = new EnemyRhino(res);
     }
 
     @Override
@@ -80,6 +82,7 @@ public class GameView extends SurfaceView implements Runnable {
         background2.update();
 
         player.update();
+        rhino.update();
     }
 
     private void draw() {
@@ -93,7 +96,7 @@ public class GameView extends SurfaceView implements Runnable {
             terrain2.draw(canvas);
 
             player.draw(canvas);
-
+            rhino.draw(canvas);
             getHolder().unlockCanvasAndPost(canvas);
         }
     }
