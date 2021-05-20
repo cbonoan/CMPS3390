@@ -51,10 +51,17 @@ public class Player implements GameObject{
 
     //Variables needed for jumping physics
     private int velocity = 20;
-    private float t = 0.0f, gravity = -9.8f;
+    private float t = 0.0f, gravity = -7.5f;
     private boolean jump = false, doubleJumped = false;
     private int jumps = 0;
 
+    /**
+     * Constructor for player
+     * Sets the bitmaps for all player animations such as running, jumping, double jumping, and
+     * falling
+     * Also set the initial position of player to be off screen to the left
+     * @param res
+     */
     public Player(Resources res) {
         this.res = res;
         DisplayMetrics dm = res.getDisplayMetrics();
@@ -85,8 +92,9 @@ public class Player implements GameObject{
         doublePosToDraw = new RectF(0,0, x+doubleFrameWidth, y+doubleFrameHeight);
     }
 
-
-
+    /**
+     * Function calls Sprite Manager to manage all the player running frames
+     */
     public void manageRunCurFrame() {
         runFrameChangeTime = runSpriteManager.manageCurFrame(runFrameChangeTime);
 
@@ -97,6 +105,9 @@ public class Player implements GameObject{
         runFrameToDraw.right = runFrameToDraw.left + runFrameWidth;
     }
 
+    /**
+     * Function calls Sprite Manager to manage all the player double jump frames
+     */
     public void manageDoubleJumFrame() {
         doubleFrameChangeTime = doubleJumpSpriteManager.manageCurFrame(doubleFrameChangeTime);
 
@@ -134,7 +145,9 @@ public class Player implements GameObject{
 
         // While jump is true
         if(this.jump) {
-            //Check if player double jumps
+            //Check if player double jumps and make sure player is not allowed to jump more than twice
+            // If player double jumps, then reset the time variable t which will reset the arc of jump
+            // then reset boolean doubleJumped back to false
             if(this.jumps == 2 && this.doubleJumped) {
                 this.t = 0.0f;
                 this.doubleJumped = false;
@@ -154,7 +167,6 @@ public class Player implements GameObject{
                 // This will help when determining what to set curImage to
                 // (i.e jumpingPlayer or fallingPlayer)
                 // This block will also see if the player double jumps and use the doubleJump bitmap
-                Log.d("JUMP", "y0: " + this.y0 + " y: " + this.y);
                 if(this.y0 >= this.y && jumps < 2) {
                     curImage = jumpingPlayer;
                 } else if(this.y0 >= this.y && jumps >= 2) {

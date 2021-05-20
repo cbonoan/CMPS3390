@@ -12,7 +12,13 @@ public class SpriteManager {
     private int frameCount;
     int curFrame = 0;
 
-
+    /**
+     * Constructor for SpriteManager
+     * @param frameWidth width of each frame in sprite sheet
+     * @param frameHeight height of each frame
+     * @param frameLengthTime how long to show each frame
+     * @param frameCount how many frames in sprite sheet
+     */
     public SpriteManager(int frameWidth, int frameHeight, int frameLengthTime, int frameCount) {
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
@@ -25,6 +31,7 @@ public class SpriteManager {
      * long a frame has been running and when that variable becomes greater than the time it took
      * for the last frame to change plus the user defined time length, then I update the frame of the
      * bitmap to the next sprite
+     * @param frameChangeTime a long that represents how long a frame has been shown
      */
     public long manageCurFrame(long frameChangeTime) {
         long time = System.currentTimeMillis();
@@ -33,6 +40,7 @@ public class SpriteManager {
             frameChangeTime = time;
             curFrame++;
 
+            // Go back to first frame once all frames have been looped through
             if (curFrame >= frameCount) {
                 curFrame = 0;
             }

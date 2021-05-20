@@ -9,6 +9,9 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.DisplayMetrics;
 
+/**
+ * Class for rhino enemy logic
+ */
 public class EnemyRhino implements GameObject{
     private final Resources res;
     private int screenX, screenY;
@@ -30,6 +33,11 @@ public class EnemyRhino implements GameObject{
     private SpriteManager rhinoSpriteManager = new SpriteManager(rhinoFrameWidth, rhinoFrameHeight,
             rhinoFrameTimeLength, rhinoFrameCount);
 
+    /**
+     * Constructor for class
+     * Initialize x value to be off screen when spawned
+     * @param res
+     */
     public EnemyRhino(Resources res) {
         this.res = res;
         DisplayMetrics dm = res.getDisplayMetrics();
@@ -49,6 +57,7 @@ public class EnemyRhino implements GameObject{
 
     @Override
     public void update() {
+        // Moving object to the left
         if(this.x > -screenX) {
             this.x -= runSpeed;
         }
