@@ -92,26 +92,12 @@ public class EnemyTurtle implements GameObject{
 
     @Override
     public float getWidth() {
-        return 0;
+        return this.turtleFrameWidth;
     }
 
     @Override
     public float getHeight() {
-        return 0;
+        return this.turtleFrameHeight;
     }
 
-    @Override
-    public boolean isAlive() {
-        return false;
-    }
-
-    @Override
-    public float getHealth() {
-        return 0;
-    }
-
-    @Override
-    public float takeDamage(float damage) {
-        return 0;
-    }
 }

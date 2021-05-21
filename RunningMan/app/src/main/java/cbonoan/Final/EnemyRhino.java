@@ -19,7 +19,7 @@ public class EnemyRhino implements GameObject{
 
     private Bitmap rhino;
 
-    private float x, y, groundLevel, runSpeed = 18f;
+    private float x, y, groundLevel, runSpeed = 20f;
     private int rhinoFrameWidth = 250, rhinoFrameHeight = 250;
     private int rhinoFrameCount = 6;
     private int rhinoFrameTimeLength = 13;
@@ -85,36 +85,21 @@ public class EnemyRhino implements GameObject{
 
     @Override
     public float getX() {
-        return 0;
+        return this.x;
     }
 
     @Override
     public float getY() {
-        return 0;
+        return this.y;
     }
 
     @Override
     public float getWidth() {
-        return 0;
+        return this.rhinoFrameWidth;
     }
 
     @Override
     public float getHeight() {
-        return 0;
-    }
-
-    @Override
-    public boolean isAlive() {
-        return false;
-    }
-
-    @Override
-    public float getHealth() {
-        return 0;
-    }
-
-    @Override
-    public float takeDamage(float damage) {
-        return 0;
+        return this.rhinoFrameHeight;
     }
 }

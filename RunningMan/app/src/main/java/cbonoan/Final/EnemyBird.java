@@ -49,7 +49,6 @@ public class EnemyBird implements GameObject{
 
         this.x = screenX * 2f;
         this.y = screenY * (0.3f + rand.nextFloat() * (0.5f - 0.3f));
-        Log.d("Y", "Y: " + this.y);
 
         this.bird = BitmapFactory.decodeResource(res, R.mipmap.bluebird);
         this.bird = Bitmap.createScaledBitmap(this.bird, birdFrameWidth*birdFrameCount,
@@ -97,36 +96,22 @@ public class EnemyBird implements GameObject{
 
     @Override
     public float getX() {
-        return 0;
+        return this.x;
     }
 
     @Override
     public float getY() {
-        return 0;
+        return this.y;
     }
 
     @Override
     public float getWidth() {
-        return 0;
+        return this.birdFrameWidth;
     }
 
     @Override
     public float getHeight() {
-        return 0;
+        return this.birdFrameHeight;
     }
 
-    @Override
-    public boolean isAlive() {
-        return false;
-    }
-
-    @Override
-    public float getHealth() {
-        return 0;
-    }
-
-    @Override
-    public float takeDamage(float damage) {
-        return 0;
-    }
 }

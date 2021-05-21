@@ -24,6 +24,10 @@ public final class HighScore {
         return curScore;
     }
 
+    public void setCurScore(int score) {
+        curScore = score;
+    }
+
     public int getHighScore() {
         return highScore;
     }

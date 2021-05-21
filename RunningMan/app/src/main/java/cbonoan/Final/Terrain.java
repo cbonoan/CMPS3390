@@ -36,25 +36,12 @@ public class Terrain {
         this.terrain = Bitmap.createScaledBitmap(this.terrain, screenX, terrain.getHeight(), false);
     }
 
-
-    public float getX() {
-        return x;
-    }
-
     /**
      * Set initial x position for the terrain
      * @param x value that represents the x axis
      */
     public void setX(float x) {
         this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
     }
 
     /**

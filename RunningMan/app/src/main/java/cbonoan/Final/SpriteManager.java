@@ -32,6 +32,8 @@ public class SpriteManager {
      * for the last frame to change plus the user defined time length, then I update the frame of the
      * bitmap to the next sprite
      * @param frameChangeTime a long that represents how long a frame has been shown
+     * @return if frameChangeTime does not change to time, we return the same value, otherwise we return
+     * a new time that represents the time at which the frame was changed
      */
     public long manageCurFrame(long frameChangeTime) {
         long time = System.currentTimeMillis();

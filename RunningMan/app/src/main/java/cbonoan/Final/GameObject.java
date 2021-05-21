@@ -17,7 +17,5 @@ public interface GameObject {
     float getWidth();
     float getHeight();
 
-    boolean isAlive();
-    float getHealth();
-    float takeDamage(float damage);
+
 }

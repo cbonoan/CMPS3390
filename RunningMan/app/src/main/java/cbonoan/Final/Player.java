@@ -1,5 +1,6 @@
 package cbonoan.Final;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,12 +19,14 @@ import android.util.Log;
  */
 public class Player implements GameObject{
     private final Resources res;
+    private final GameView gameView;
     private int screenX, screenY;
     private float dpi;
 
-    private Bitmap runningPlayer, jumpingPlayer, fallingPlayer, doubleJump;
+    private boolean alive = true;
+    private Bitmap runningPlayer, jumpingPlayer, fallingPlayer, gameOverPlayer, doubleJump;
     private Bitmap curImage;
-    private float runSpeed = 20f;
+    private float runSpeed = 23f;
     private float x ,y, y0, groundLevel;
     // Running sprite sheet variables
     private int runFrameWidth = 150, runFrameHeight = 150;
@@ -35,11 +38,20 @@ public class Player implements GameObject{
     private int doubleFrameCount = 6;
     private long doubleFrameChangeTime = 0;
     private int doubleFrameTimeLength = 12;
+    // Player getting hit sprite sheet vars
+    private int hitFrameWidth = 150, hitFrameHeight = 150;
+    private int hitFrameCount = 7;
+    private long hitFrameChangeTime = 0;
+    private int hitFrameTimeLength = 20;
+
+    private int width, height;
 
     private SpriteManager doubleJumpSpriteManager = new SpriteManager(doubleFrameWidth,
             doubleFrameHeight, doubleFrameTimeLength, doubleFrameCount);
     private SpriteManager runSpriteManager = new SpriteManager(runFrameWidth, runFrameHeight,
             runFrameTimeLength, runFrameCount);
+    private SpriteManager hitSpriteManager = new SpriteManager(hitFrameWidth, hitFrameHeight,
+            hitFrameTimeLength, hitFrameCount);
 
     // Rectangles used to draw the running spritesheet frames
     private Rect runFrameToDraw = new Rect(0,0, runFrameWidth, runFrameHeight);
@@ -47,11 +59,17 @@ public class Player implements GameObject{
     // Rects used to draw the double jump spritesheet frames
     private Rect doubleFrameToDraw = new Rect(0,0,doubleFrameWidth, doubleFrameHeight);
     private RectF doublePosToDraw;
+    // Rects used to draw the player hit spritesheet frames
+    private Rect hitFrameToDraw = new Rect(0,0,hitFrameWidth, hitFrameHeight);
+    private RectF hitPosToDraw;
+
     private Paint paint = new Paint();
 
+    private boolean startedFootSteps = false;
+
     //Variables needed for jumping physics
-    private int velocity = 20;
-    private float t = 0.0f, gravity = -7.5f;
+    private float velocity = runSpeed;
+    private float t = 0.0f, gravity = -8f;
     private boolean jump = false, doubleJumped = false;
     private int jumps = 0;
 
@@ -62,8 +80,9 @@ public class Player implements GameObject{
      * Also set the initial position of player to be off screen to the left
      * @param res
      */
-    public Player(Resources res) {
+    public Player(GameView gameView, Resources res) {
         this.res = res;
+        this.gameView = gameView;
         DisplayMetrics dm = res.getDisplayMetrics();
         this.dpi = dm.densityDpi;
         this.screenX = dm.widthPixels;
@@ -83,13 +102,25 @@ public class Player implements GameObject{
         this.fallingPlayer = BitmapFactory.decodeResource(res, R.mipmap.falling);
         this.fallingPlayer = Bitmap.createScaledBitmap(this.fallingPlayer, runFrameWidth, runFrameHeight, false);
 
+        this.gameOverPlayer = BitmapFactory.decodeResource(res, R.mipmap.playergameover);
+        this.gameOverPlayer = Bitmap.createScaledBitmap(this.gameOverPlayer, hitFrameWidth*hitFrameCount,
+                hitFrameHeight, false);
+
         this.curImage = this.runningPlayer;
+
+        this.width = this.runFrameWidth;
+        this.height = this.runFrameHeight;
 
         this.x = -screenX;
         this.y = this.y0 = this.groundLevel = screenY * 0.77f;
 
         runPosToDraw = new RectF(x, y,x+ runFrameWidth, y+ runFrameHeight);
         doublePosToDraw = new RectF(0,0, x+doubleFrameWidth, y+doubleFrameHeight);
+        hitPosToDraw = new RectF(x,y,x+hitFrameWidth, y+hitFrameHeight);
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 
     /**
@@ -108,27 +139,47 @@ public class Player implements GameObject{
     /**
      * Function calls Sprite Manager to manage all the player double jump frames
      */
-    public void manageDoubleJumFrame() {
+    public void manageDoubleJumpFrame() {
         doubleFrameChangeTime = doubleJumpSpriteManager.manageCurFrame(doubleFrameChangeTime);
 
         doubleFrameToDraw.left = doubleJumpSpriteManager.curFrame * doubleFrameWidth;
         doubleFrameToDraw.right = doubleFrameToDraw.left + doubleFrameWidth;
     }
+    private void manageHitFrame() {
+        hitFrameChangeTime = hitSpriteManager.manageCurFrame(hitFrameChangeTime);
+
+        hitFrameToDraw.left = hitSpriteManager.curFrame * hitFrameWidth;
+        hitFrameToDraw.right = hitFrameToDraw.left + hitFrameWidth;
+    }
 
     /**
      * Called in GameView when player touches the screen
+     * @return return the number of jumps to determine in GameView which sound to play (single or
+     * double jump sound) or not to play a sound at all
      */
-    public void actionJump() {
+    public int actionJump() {
         this.jump = true;
         this.jumps++;
         if(this.jumps==2) {
             doubleJumped = true;
         }
+        this.gameView.pauseFootSteps();
+        return this.jumps;
+    }
+
+    /**
+     * This will set the image of player to the gameOverPlayer sprite and play the animation
+     */
+    public void gameOver() {
+        this.gameView.playGameOverSound();
+        curImage = gameOverPlayer;
     }
 
     /**
      * First the player will start off screen, then will run onto the screen until it is about
      * half way into the screen, this is when the game will start
+     *
+     * Footsteps will start playing once the player reaches the left edge of screen
      *
      * For the y position, the y value will not change until jump is true (when player touches screen)
      * since this function is called as long as the app is running, I treated the else if statement
@@ -136,11 +187,19 @@ public class Player implements GameObject{
      *
      * The y value is also calculated using a physics formula when finding the height of a bouncing
      * ball
+     *
+     * This function will also need to make sure the width and height variables are set to the correct
+     * sprite sheet so that collision is accurate
      */
     @Override
     public void update() {
         if(this.x < this.screenX * 0.2f) {
             this.x += runSpeed;
+        }
+
+        if(this.x >= 0 && !startedFootSteps) {
+            this.gameView.startFootSteps();
+            startedFootSteps = true;
         }
 
         // While jump is true
@@ -160,6 +219,8 @@ public class Player implements GameObject{
                 this.jump = false;
                 this.jumps = 0;
                 curImage = runningPlayer;
+                this.gameView.playLandingSound();
+                this.gameView.resumeFootSteps();
             } else {
                 this.y = (float) (this.y0 - (this.velocity * this.t + (0.5) * this.gravity * this.t * this.t));
 
@@ -176,7 +237,7 @@ public class Player implements GameObject{
                 }
 
                 this.y0 = this.y;
-                this.t += 0.25;
+                this.t += 0.3;
             }
 
         }
@@ -184,20 +245,34 @@ public class Player implements GameObject{
 
     @Override
     public void draw(Canvas canvas) {
-        if(curImage == runningPlayer) {
-            runPosToDraw.set((int) this.x, (int) this.y, (int) this.x + this.runFrameWidth,
-                    (int) this.y + this.runFrameHeight);
-            manageRunCurFrame();
-            canvas.drawBitmap(curImage, runFrameToDraw, runPosToDraw, paint);
-        } else if(curImage == doubleJump) {
-            doublePosToDraw.set((int) this.x, (int) this.y, (int) this.x + this.doubleFrameWidth,
-                    (int) this.y + this.doubleFrameHeight);
-            manageDoubleJumFrame();
-            canvas.drawBitmap(curImage, doubleFrameToDraw, doublePosToDraw, paint);
+        // Changing the alive boolean to false here ensures that the gameOverPlayer sprite
+        // animation is only played once
+        if(alive) {
+            if (curImage == gameOverPlayer) {
+                hitPosToDraw.set((int) this.x, (int) this.y, (int) this.x + this.hitFrameWidth,
+                        (int) this.y + this.hitFrameHeight);
+                manageHitFrame();
+                canvas.drawBitmap(curImage, hitFrameToDraw, hitPosToDraw, paint);
+                alive = false;
+            } else if (curImage == runningPlayer) {
+                runPosToDraw.set((int) this.x, (int) this.y, (int) this.x + this.runFrameWidth,
+                        (int) this.y + this.runFrameHeight);
+                manageRunCurFrame();
+                canvas.drawBitmap(curImage, runFrameToDraw, runPosToDraw, paint);
+            } else if (curImage == doubleJump) {
+                doublePosToDraw.set((int) this.x, (int) this.y, (int) this.x + this.doubleFrameWidth,
+                        (int) this.y + this.doubleFrameHeight);
+                manageDoubleJumpFrame();
+                canvas.drawBitmap(curImage, doubleFrameToDraw, doublePosToDraw, paint);
+            } else {
+                canvas.drawBitmap(curImage, this.x, this.y, paint);
+            }
         } else {
-            canvas.drawBitmap(curImage, this.x, this.y, paint);
+            canvas.drawBitmap(curImage, hitFrameToDraw, hitPosToDraw, paint);
         }
     }
+
+
 
     @Override
     public float getX() {
@@ -211,26 +286,13 @@ public class Player implements GameObject{
 
     @Override
     public float getWidth() {
-        return curImage.getWidth();
+        return this.width;
     }
 
     @Override
     public float getHeight() {
-        return curImage.getHeight();
+        return this.height;
     }
 
-    @Override
-    public boolean isAlive() {
-        return false;
-    }
 
-    @Override
-    public float getHealth() {
-        return 0;
-    }
-
-    @Override
-    public float takeDamage(float damage) {
-        return 0;
-    }
 }
