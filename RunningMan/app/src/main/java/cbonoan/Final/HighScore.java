@@ -1,5 +1,8 @@
 package cbonoan.Final;
 
+/**
+ * A class that will keep track of user's score and highscore
+ */
 public final class HighScore {
     private static final HighScore INSTANCE = new HighScore();
     private int curScore = 0;

@@ -27,6 +27,12 @@ public class Terrain {
 
     private float runningSpeed = 0.025f;
 
+    /**
+     * Set the coordinates of the terrain bitmap to be at the bottom of screen
+     * @param res
+     * @param screenX
+     * @param screenY
+     */
     public Terrain(Resources res, int screenX, int screenY) {
         this.screenX = screenX;
         this.screenY = screenY;

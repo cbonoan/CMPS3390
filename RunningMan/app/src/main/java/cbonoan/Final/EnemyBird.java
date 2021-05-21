@@ -12,6 +12,9 @@ import android.util.Log;
 
 import java.util.Random;
 
+/**
+ * This class represents the bird enemy object and will contain the logic for it
+ */
 public class EnemyBird implements GameObject{
     Random rand = new Random();
 
