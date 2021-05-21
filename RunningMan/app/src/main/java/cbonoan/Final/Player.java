@@ -37,7 +37,7 @@ public class Player implements GameObject{
     private int doubleFrameWidth = 150, doubleFrameHeight = 150;
     private int doubleFrameCount = 6;
     private long doubleFrameChangeTime = 0;
-    private int doubleFrameTimeLength = 12;
+    private int doubleFrameTimeLength = 5;
     // Player getting hit sprite sheet vars
     private int hitFrameWidth = 150, hitFrameHeight = 150;
     private int hitFrameCount = 7;
@@ -72,6 +72,7 @@ public class Player implements GameObject{
     private float t = 0.0f, gravity = -8f;
     private boolean jump = false, doubleJumped = false;
     private int jumps = 0;
+    private boolean bringPlayerBack = false;
 
     /**
      * Constructor for player
@@ -195,6 +196,12 @@ public class Player implements GameObject{
     public void update() {
         if(this.x < this.screenX * 0.2f) {
             this.x += runSpeed;
+            bringPlayerBack = false;
+        }
+
+        // Since player moves forward on jump, we need to reset the x position after they land
+        if(bringPlayerBack && !jump) {
+            this.x -= 10f;
         }
 
         if(this.x >= 0 && !startedFootSteps) {
@@ -204,6 +211,7 @@ public class Player implements GameObject{
 
         // While jump is true
         if(this.jump) {
+            this.x += 10f;
             //Check if player double jumps and make sure player is not allowed to jump more than twice
             // If player double jumps, then reset the time variable t which will reset the arc of jump
             // then reset boolean doubleJumped back to false
@@ -221,6 +229,7 @@ public class Player implements GameObject{
                 curImage = runningPlayer;
                 this.gameView.playLandingSound();
                 this.gameView.resumeFootSteps();
+                bringPlayerBack = true;
             } else {
                 this.y = (float) (this.y0 - (this.velocity * this.t + (0.5) * this.gravity * this.t * this.t));
 

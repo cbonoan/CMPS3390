@@ -50,6 +50,7 @@ public class GameActivity extends AppCompatActivity {
         } else {
             soundPool = new SoundPool(MAX, AudioManager.STREAM_MUSIC, 0);
         }
+
         gameMusic = soundPool.load(this, R.raw.gamemusic, 2);
 
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
@@ -83,7 +84,14 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void quitGame() {
-        finish();
+        soundPool.stop(gameMusic);
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        }, 0);
     }
 
     /**
@@ -92,7 +100,15 @@ public class GameActivity extends AppCompatActivity {
      */
     private void restartGame() {
         gameView.setCurScore(0);
-        recreate();
+        soundPool.stop(gameMusic);
+        // Will go through the process of calling onDestroy and creating the activity again
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recreate();
+            }
+        }, 0);
     }
 
     @Override
@@ -114,6 +130,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d("Flow", "Destory");
         gameView.getSoundEffects().end();
     }
 

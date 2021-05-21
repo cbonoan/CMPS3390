@@ -20,7 +20,7 @@ public class EnemySpawner {
     private ArrayList<GameObject> enemies;
     int frameTick = 0, spawnTick;
 
-    int maxEnemies = 3; // Can increase if adding new enemies
+    int maxEnemies = 4; // Can increase if adding new enemies
 
     /**
      * Constructor for EnemySpawner
@@ -61,6 +61,10 @@ public class EnemySpawner {
                 case 3:
                     enemies.add(new EnemyBird(res));
                     break;
+                case 4:
+                    enemies.add(new EnemyBird(res));
+                    enemies.add(new EnemyRhino(res));
+                    break;
             }
 
         }
@@ -71,7 +75,7 @@ public class EnemySpawner {
             go.update();
 
             // If enemy is off screen to the left, remove it from list
-            if(go.getX() <= -5) {
+            if(go.getX() <= -100) {
                 iterator.remove();
             }
         }

@@ -78,14 +78,15 @@ public class EnemyBird implements GameObject{
             this.x -= runSpeed;
         }
 
-
         // Need to change y to move in sin curve
         // Multiplcation before sin operation determines wideness of curve. Increasing the float
         // will create a larger curve
         // The division inside the sin determines how fast the curve is completed.
         // Code rehashed from StarTracker application
         float yOff = (float) ( (num1 * screenY) * Math.sin(x / (num2 * screenX)));
-        this.y+=yOff;
+        if(this.y+yOff < screenY * 0.7f){
+            this.y += yOff;
+        }
     }
 
     @Override

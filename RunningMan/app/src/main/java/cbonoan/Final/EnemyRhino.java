@@ -9,6 +9,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.DisplayMetrics;
 
+import java.util.Random;
+
 /**
  * Class for rhino enemy logic
  */
@@ -19,7 +21,7 @@ public class EnemyRhino implements GameObject{
 
     private Bitmap rhino;
 
-    private float x, y, groundLevel, runSpeed = 20f;
+    private float x, y, groundLevel, runSpeed;
     private int rhinoFrameWidth = 250, rhinoFrameHeight = 250;
     private int rhinoFrameCount = 6;
     private int rhinoFrameTimeLength = 13;
@@ -51,6 +53,8 @@ public class EnemyRhino implements GameObject{
         this.rhino = BitmapFactory.decodeResource(res, R.mipmap.rhinorun);
         this.rhino = Bitmap.createScaledBitmap(this.rhino, rhinoFrameWidth*rhinoFrameCount,
                 rhinoFrameHeight, false);
+
+        this.runSpeed = 15f + (new Random().nextFloat() * (25f - 15f));
 
         this.posToDraw = new RectF(x,y,x+rhinoFrameWidth,y+rhinoFrameHeight);
     }
