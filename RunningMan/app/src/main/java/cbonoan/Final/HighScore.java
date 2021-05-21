@@ -5,6 +5,10 @@ public final class HighScore {
     private int curScore = 0;
     private int highScore = 0;
 
+    /**
+     * Singleton
+     * @return an instance of HighScore
+     */
     public static HighScore getInstance() { return INSTANCE; }
 
     /**
@@ -22,10 +26,6 @@ public final class HighScore {
 
     public int getCurScore() {
         return curScore;
-    }
-
-    public void setCurScore(int score) {
-        curScore = score;
     }
 
     public int getHighScore() {

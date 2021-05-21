@@ -81,6 +81,10 @@ public class EnemySpawner {
         }
     }
 
+    /**
+     * Use a loop to draw all the enemies onto the screen
+     * @param canvas
+     */
     public void draw(Canvas canvas) {
         for(GameObject go : enemies) {
             go.draw(canvas);

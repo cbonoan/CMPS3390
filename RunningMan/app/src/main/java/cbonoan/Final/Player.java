@@ -252,6 +252,11 @@ public class Player implements GameObject{
         }
     }
 
+    /**
+     * The draw function for player will check what the current image of the player is, and will
+     * draw the correct sprite sheet depending on that image
+     * @param canvas
+     */
     @Override
     public void draw(Canvas canvas) {
         // Changing the alive boolean to false here ensures that the gameOverPlayer sprite

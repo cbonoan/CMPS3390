@@ -62,14 +62,20 @@ public class EnemyTurtle implements GameObject{
         frameToDraw.right = frameToDraw.left + turtleFrameWidth;
     }
 
+    /**
+     * Move turtle to left until off screen
+     */
     @Override
     public void update() {
-        // Move object to left
         if(this.x > -screenX) {
             this.x -= runSpeed;
         }
     }
 
+    /**
+     * Drawing the correct frame for turtle sprite sheet
+     * @param canvas
+     */
     @Override
     public void draw(Canvas canvas) {
         this.posToDraw.set((int) this.x, (int) this.y, (int) this.x + this.turtleFrameWidth,

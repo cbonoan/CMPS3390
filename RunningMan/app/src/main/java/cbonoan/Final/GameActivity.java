@@ -23,6 +23,10 @@ public class GameActivity extends AppCompatActivity {
     private final int MAX = 1;
     private static int gameMusic;
 
+    /**
+     * This function will set up our view to be GameView as well as start the music sound
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +57,7 @@ public class GameActivity extends AppCompatActivity {
 
         gameMusic = soundPool.load(this, R.raw.gamemusic, 2);
 
+        // Once the music audio is done loading, we play it
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
             public void onLoadComplete(SoundPool soundPool, int soundId, int status) {
@@ -83,6 +88,10 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Function is called when player selects to quit the game and return to the main menu
+     * We will stop the music and use a handler to finish the activity with no delay
+     */
     private void quitGame() {
         soundPool.stop(gameMusic);
         Handler handler = new Handler(Looper.getMainLooper());
@@ -99,7 +108,7 @@ public class GameActivity extends AppCompatActivity {
      * run it again
      */
     private void restartGame() {
-        gameView.setCurScore(0);
+        gameView.resetCurScore();
         soundPool.stop(gameMusic);
         // Will go through the process of calling onDestroy and creating the activity again
         Handler handler = new Handler(Looper.getMainLooper());
@@ -111,6 +120,9 @@ public class GameActivity extends AppCompatActivity {
         }, 0);
     }
 
+    /**
+     * Pause the activity
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -118,6 +130,9 @@ public class GameActivity extends AppCompatActivity {
         gameView.pause();
     }
 
+    /**
+     * Resume activity
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -127,6 +142,9 @@ public class GameActivity extends AppCompatActivity {
         gameView.resume();
     }
 
+    /**
+     * Finish activity
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();

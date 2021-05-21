@@ -61,6 +61,9 @@ public class EnemyBird implements GameObject{
         this.posToDraw = new RectF(x,y,x+birdFrameWidth,y+birdFrameHeight);
     }
 
+    /**
+     * Will manage what frame to show on canvas
+     */
     private void updateBird() {
         this.birdChangeTime = this.spriteManager.manageCurFrame(this.birdChangeTime);
 
@@ -69,7 +72,8 @@ public class EnemyBird implements GameObject{
     }
 
     /**
-     * Update function will move the bird in a sin curve behavior
+     * This function will move the bird to the left as well as update its y coordinate in a sin curve
+     * behavior
      */
     @Override
     public void update() {
@@ -89,6 +93,10 @@ public class EnemyBird implements GameObject{
         }
     }
 
+    /**
+     * Drawing the correct frame for bird spritesheet
+     * @param canvas
+     */
     @Override
     public void draw(Canvas canvas) {
         this.posToDraw.set((int) this.x, (int) this.y, (int) this.x + this.birdFrameWidth,
@@ -96,8 +104,6 @@ public class EnemyBird implements GameObject{
         updateBird();
         canvas.drawBitmap(bird, frameToDraw, posToDraw, paint);
     }
-
-
 
     @Override
     public float getX() {

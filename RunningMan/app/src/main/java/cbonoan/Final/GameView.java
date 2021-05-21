@@ -118,10 +118,13 @@ public class GameView extends SurfaceView implements Runnable {
         pauseRect = new RectF(screenWidth*0.85f, 0, screenWidth, screenHeight*0.1f);
     }
 
+    /**
+     * Check if player collides with enemy
+     * If player collides with enemy, call the gameOver function in both player class and
+     * GameActivity class
+     */
     private void checkCollisions() {
-        //Check if player collides with enemy
-        // If player collides with enemy, call the gameOver function in both player class and
-        // GameActivity class
+
         for(GameObject go : enemies) {
             if(checkCollision(player, go)) {
                 player.gameOver();
@@ -144,6 +147,12 @@ public class GameView extends SurfaceView implements Runnable {
                 g1.getY() + g1.getHeight() > g2.getY();
     }
 
+    /**
+     * This function will run whenever user touches screen.
+     * We only care about the ACTION_DOWN event, so we will only perform actions on that event
+     * @param event
+     * @return
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int jumps = 0;
@@ -168,6 +177,9 @@ public class GameView extends SurfaceView implements Runnable {
         return true;
     }
 
+    /**
+     * Thread that will keep our application running
+     */
     @Override
     public void run() {
         while(gamePlaying) {
@@ -213,6 +225,10 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
+    /**
+     * Responsible for calling the draw functions for each game object and drawing them onto this
+     * canvas
+     */
     private void draw() {
         if(getHolder().getSurface().isValid()) {
             Canvas canvas = getHolder().lockCanvas();
@@ -251,23 +267,37 @@ public class GameView extends SurfaceView implements Runnable {
      * In order to avoid having to create multiple objects of SoundEffects in multiple files,
      * I created functions that will be called from the class needing the sound and play the sound
      * from this GameView class
+     *
+     * This function will play the landing sound effect
      */
     public void playLandingSound() {
         soundEffects.playSound("LANDING");
     }
 
+    /**
+     * Play the footstep sound effect
+     */
     public void startFootSteps() {
         soundEffects.startFootSteps();
     }
 
+    /**
+     * Pause the footstep sound effect
+     */
     public void pauseFootSteps() {
         soundEffects.pauseFootSteps();
     }
 
+    /**
+     * Resume the footstep sound effect
+     */
     public void resumeFootSteps() {
         soundEffects.resumeFootSteps();
     }
 
+    /**
+     * Play the gameover sound effect
+     */
     public void playGameOverSound() {
         soundEffects.playSound("GAMEOVER");
     }
@@ -299,6 +329,10 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
+    /**
+     * Called from GameActivity onResume, and will resume the update function as well as the soundeffects
+     * and create a new thread to run
+     */
     public void resume() {
         gamePlaying = true;
 
@@ -308,16 +342,17 @@ public class GameView extends SurfaceView implements Runnable {
         thread.start();
     }
 
+
     public SoundEffects getSoundEffects() {
         return soundEffects;
     }
 
-    public int getCurScore() {
-        return highScore.getCurScore();
-    }
-
-    public void setCurScore(int score) {
-        highScore.setCurScore(score);
+    /**
+     * Need this function for when player wants to restart the game, then we set their current score
+     * back to 0
+     */
+    public void resetCurScore() {
+        highScore.resetCurScore();
     }
 
 }

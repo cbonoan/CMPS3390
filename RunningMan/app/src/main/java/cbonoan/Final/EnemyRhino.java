@@ -59,6 +59,9 @@ public class EnemyRhino implements GameObject{
         this.posToDraw = new RectF(x,y,x+rhinoFrameWidth,y+rhinoFrameHeight);
     }
 
+    /**
+     * Move rhino to the left until it is off screen
+     */
     @Override
     public void update() {
         // Moving object to the left
@@ -68,6 +71,10 @@ public class EnemyRhino implements GameObject{
 
     }
 
+    /**
+     * Draw the correct sprite sheet frame
+     * @param canvas
+     */
     @Override
     public void draw(Canvas canvas) {
         this.posToDraw.set((int) this.x, (int) this.y, (int) this.x + this.rhinoFrameWidth,
