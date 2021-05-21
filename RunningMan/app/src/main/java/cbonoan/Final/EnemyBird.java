@@ -21,7 +21,7 @@ public class EnemyBird implements GameObject{
 
     private Bitmap bird;
 
-    private float x, y, runSpeed = 15f;
+    private float x, y, runSpeed = 15f, num1, num2;
     private int birdFrameWidth = 125, birdFrameHeight = 125;
     private int birdFrameCount = 9;
     private int birdFrameTimeLength = 10;
@@ -35,7 +35,6 @@ public class EnemyBird implements GameObject{
     private SpriteManager spriteManager = new SpriteManager(birdFrameWidth, birdFrameHeight,
             birdFrameTimeLength, birdFrameCount);
 
-
     /**
      * Constructor for enemy bird
      * @param res
@@ -48,11 +47,16 @@ public class EnemyBird implements GameObject{
         this.screenY = dm.heightPixels;
 
         this.x = screenX * 2f;
-        this.y = screenY * (0.3f + rand.nextFloat() * (0.5f - 0.3f));
+        this.y = screenY * (0.6f + rand.nextFloat() * (0.7f - 0.6f));
 
         this.bird = BitmapFactory.decodeResource(res, R.mipmap.bluebird);
         this.bird = Bitmap.createScaledBitmap(this.bird, birdFrameWidth*birdFrameCount,
                 birdFrameHeight, false);
+
+        // Generate two random numbers that will be used to make the curve of the bird path
+        // feel more random
+        this.num1 = 0.01f + rand.nextFloat() * (0.03f - 0.01f); // Get a float from 0.01 - 0.03
+        this.num2 = 0.01f + rand.nextFloat() * (0.05f - 0.01f); // 0.01 - 0.05
 
         this.posToDraw = new RectF(x,y,x+birdFrameWidth,y+birdFrameHeight);
     }
@@ -74,13 +78,13 @@ public class EnemyBird implements GameObject{
             this.x -= runSpeed;
         }
 
+
         // Need to change y to move in sin curve
         // Multiplcation before sin operation determines wideness of curve. Increasing the float
         // will create a larger curve
-        // The division inside the sin determines how fast the curve is completed. Incresing the float
-        // value will make the curve longer
+        // The division inside the sin determines how fast the curve is completed.
         // Code rehashed from StarTracker application
-        float yOff = (float) ( (0.02f * screenY) * Math.sin(x / (0.07f * screenX)));
+        float yOff = (float) ( (num1 * screenY) * Math.sin(x / (num2 * screenX)));
         this.y+=yOff;
     }
 

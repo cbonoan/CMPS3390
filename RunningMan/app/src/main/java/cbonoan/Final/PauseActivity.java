@@ -9,9 +9,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
+/**
+ * This class will be the activity that plays the pause_menu layout when the player wants to pause
+ */
 public class PauseActivity extends AppCompatActivity {
-    private Bitmap mute, unmute;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +23,14 @@ public class PauseActivity extends AppCompatActivity {
         setContentView(R.layout.pause_menu);
     }
 
+    /**
+     * Create a new intent that will return a code 100 meaning for the game to resume from where it
+     * was left off
+     * @param view
+     */
     public void resumeGame(View view) {
+        Intent returnIntent = new Intent();
+        setResult(100, returnIntent);
         finish();
     }
 
@@ -33,7 +41,7 @@ public class PauseActivity extends AppCompatActivity {
      */
     public void restartGame(View view) {
         Intent returnIntent = new Intent();
-        setResult(100, returnIntent); // We will send a 100 code letting GameActivity know to restart
+        setResult(101, returnIntent); // We will send a 100 code letting GameActivity know to restart
         finish();
     }
 
@@ -44,11 +52,7 @@ public class PauseActivity extends AppCompatActivity {
      */
     public void quitGame(View view) {
         Intent returnIntent = new Intent();
-        setResult(101, returnIntent); // We will send a 101 to quit the game
+        setResult(102, returnIntent); // We will send a 101 to quit the game
         finish();
-    }
-
-    public void changeVolume(View view) {
-
     }
 }

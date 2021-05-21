@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -28,7 +29,6 @@ public class GameView extends SurfaceView implements Runnable {
     private Thread thread;
 
     private GameActivity gameActivity;
-    private PauseMenu pauseMenu;
 
     private GameOver gameOver1, gameOver2; // Two different bitmaps to create flashing effect
     private Background background1, background2;
@@ -78,7 +78,6 @@ public class GameView extends SurfaceView implements Runnable {
 
         Resources res = getResources();
         this.gameActivity = context;
-        pauseMenu = new PauseMenu(gameActivity, res);
 
         soundEffects = new SoundEffects(context);
 
@@ -97,6 +96,10 @@ public class GameView extends SurfaceView implements Runnable {
         textPaint.setColor(Color.WHITE);
         textPaint.setTextSize(screenWidth * 0.1f);
         highScorePaint.setColor(Color.WHITE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            Typeface typeface = getResources().getFont(R.font.scorefont);
+            highScorePaint.setTypeface(typeface);
+        }
         highScorePaint.setTextSize(screenWidth * 0.035f);
 
         // Create two temp Bitmap variables to pass into the GameOver class

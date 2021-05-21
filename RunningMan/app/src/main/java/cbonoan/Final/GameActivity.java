@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class GameActivity extends AppCompatActivity {
     private GameView gameView;
-    private PauseMenu pauseMenu;
     private SoundPool soundPool;
     private AudioAttributes audioAttributes;
     private final int MAX = 1;
@@ -35,9 +34,7 @@ public class GameActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getSize(point);
 
         Resources res = getResources();
-        pauseMenu = new PauseMenu(this, res);
         gameView = new GameView(this, point.x, point.y);
-        FrameLayout flPauseMenu = pauseMenu.getPauseMenu();
 
         // Start the game music in the activity to avoid issued of it stopping when playing
         // another audio
@@ -60,7 +57,7 @@ public class GameActivity extends AppCompatActivity {
             public void onLoadComplete(SoundPool soundPool, int soundId, int status) {
                 if(soundId == gameMusic && status == 0) {
                     Log.d("Music", "Starting music");
-                    soundPool.play(gameMusic, 0.5f, 0.5f, 3, -1, 1.0f);
+                    soundPool.play(gameMusic, 0.7f, 0.7f, 3, -1, 1.0f);
                 }
             }
         });
@@ -68,12 +65,19 @@ public class GameActivity extends AppCompatActivity {
         setContentView(gameView);
     }
 
+    /**
+     * When returned from PauseActivity, we will take in the result code and determine what to do with
+     * it
+     * @param requestCode
+     * @param resultCode 100 if player wants to restart and 101 if player wants to quit
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == 100) { // Player wants to restart
+        if(resultCode == 101) { // Player wants to restart
             restartGame();
-        } else if(resultCode == 101) { //Player wants to quit
+        } else if(resultCode == 102) { //Player wants to quit
             quitGame();
         }
     }
@@ -102,6 +106,8 @@ public class GameActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        soundPool.setVolume(gameMusic, 0.7f, 0.7f);
+
         gameView.resume();
     }
 
@@ -128,9 +134,12 @@ public class GameActivity extends AppCompatActivity {
 
     /**
      * This function will turn down the music volume as well as switch activities
+     *
+     * startActivityResult function is similar to startActivity, but when GameActivity is returned to,
+     * it will expect a result code that is handled in the onActivityResult method
      */
     public void pauseGame() {
-        soundPool.setVolume(gameMusic, 0.1f, 0.1f);
+        soundPool.setVolume(gameMusic, 0.3f, 0.3f);
         startActivityForResult(new Intent(GameActivity.this, PauseActivity.class), 101);
     }
 }

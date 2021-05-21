@@ -73,6 +73,7 @@
         android:id="@+id/tvHighScore"
         android:textColor="#ffffff"
         android:textSize="25dp"
+        android:fontFamily="@font/scorefont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/imageView3"
